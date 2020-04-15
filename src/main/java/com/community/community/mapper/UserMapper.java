@@ -21,4 +21,10 @@ public interface UserMapper {
 //			@Result(column = "AVATAR_URL", property = "avatarUrl")
 //	})
 	User findById(Integer id);
+
+	@Select("select * from user where account_id = #{accountId}")
+	User findByAccountId(String accountId);
+
+	@Update("update user set name=#{name},token=#{token},gmt_create=#{gmtCreate},gmt_modified=#{gmtModified},bio=#{bio},avatar_url=#{avatarUrl} where account_id=#{accountId}")
+	void updateUser(User user);
 }

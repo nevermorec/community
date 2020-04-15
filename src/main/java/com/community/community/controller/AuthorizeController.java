@@ -49,7 +49,7 @@ public class AuthorizeController  {
 		GithubUser githubUser = githubProvider.getUser(accessToken);
 		System.out.println(githubUser.getName());
 
-		if(githubUser!=null && githubUser.getId()!=0) {
+		if (githubUser!=null && githubUser.getId()!=0) {
 			// 登录成功，记录cookies和session
 			User user = new User();
 			user.setName(githubUser.getName());
@@ -60,7 +60,11 @@ public class AuthorizeController  {
 			user.setToken(token);
 			user.setBio(githubUser.getBio());
 			user.setAvatarUrl(githubUser.getAvatar_url());
-			userMapper.insertUser(user);
+			if (userMapper.findByAccountId(user.getAccountId())!=null) {
+				userMapper.updateUser(user);
+			} else {
+				userMapper.insertUser(user);
+			}
 			httpServletResponse.addCookie(new Cookie("token", token));
 
 			return "redirect:/";
