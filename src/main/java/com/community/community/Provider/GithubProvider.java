@@ -21,11 +21,6 @@ public class GithubProvider {
 
 		OkHttpClient client = new OkHttpClient();
 
-//		OkHttpClient eagerclient = client.newBuilder().connectTimeout(20, TimeUnit.SECONDS)
-//				.readTimeout(20, TimeUnit.SECONDS)
-//				.build();
-
-		//RequestBody body = RequestBody.create(mediaType, JSON.toJSONString(accessTokenDTO));
 		RequestBody body = RequestBody.create(JSON.toJSONString(accessTokenDTO), mediaType);
 		Request request = new Request.Builder()
 				.url("https://github.com/login/oauth/access_token")
