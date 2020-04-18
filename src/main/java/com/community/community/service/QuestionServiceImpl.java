@@ -36,7 +36,7 @@ public class QuestionServiceImpl implements QuestionService {
 		List<Question> questions = questionMapper.questionList(offset, size);
 
 		for (Question question : questions) {
-			User user = userMapper.findById(question.getCreator());
+			User user = userMapper.selectByPrimaryKey(question.getCreator());
 			QuestionDTO questionDTO = new QuestionDTO(question);
 			questionDTO.setUser(user);
 			questionDTOlist.add(questionDTO);
@@ -45,6 +45,51 @@ public class QuestionServiceImpl implements QuestionService {
 		paginationDTO.setQuestions(questionDTOlist);
 		paginationDTO.setPagination(totalCount, page, size);
 		return paginationDTO;
+	}
+
+	@Override
+	public PaginationDTO listByUser(Integer userId, Integer page, Integer size) {
+		PaginationDTO paginationDTO = new PaginationDTO();
+		Integer totalCount = questionMapper.countByUserId(userId);
+
+		if (page<1) page = 1;
+		if (page>getTotalPage(size)) page = getTotalPage(size);
+
+		int offset = (page-1)*size;
+
+		List<QuestionDTO> questionDTOlist = new ArrayList<>();
+		List<Question> questions = questionMapper.questionListByUserId(userId, offset, size);
+
+		for (Question question : questions) {
+			User user = userMapper.selectByPrimaryKey(question.getCreator());
+			QuestionDTO questionDTO = new QuestionDTO(question);
+			questionDTO.setUser(user);
+			questionDTOlist.add(questionDTO);
+		}
+
+		paginationDTO.setQuestions(questionDTOlist);
+		paginationDTO.setPagination(totalCount, page, size);
+		return paginationDTO;
+	}
+
+	@Override
+	public QuestionDTO getById(Integer id) {
+		Question question = questionMapper.getById(id);
+		User user = userMapper.selectByPrimaryKey(question.getCreator());
+		QuestionDTO questionDTO = new QuestionDTO(question);
+		questionDTO.setUser(user);
+		return questionDTO;
+	}
+
+	@Override
+	public void insertOrCreateQuestion(Question question) {
+		if (question.getId()!=null) {
+			// 更新问题
+			questionMapper.updateQuestion(question);
+		} else {
+			// 增加问题
+			questionMapper.insertQuestion(question);
+		}
 	}
 
 	@Override

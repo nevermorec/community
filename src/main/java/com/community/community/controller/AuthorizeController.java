@@ -5,6 +5,7 @@ import com.community.community.dto.AccessTokenDTO;
 import com.community.community.dto.GithubUser;
 import com.community.community.mapper.UserMapper;
 import com.community.community.model.User;
+import com.community.community.model.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -60,10 +61,13 @@ public class AuthorizeController  {
 			user.setToken(token);
 			user.setBio(githubUser.getBio());
 			user.setAvatarUrl(githubUser.getAvatar_url());
-			if (userMapper.findByAccountId(user.getAccountId())!=null) {
-				userMapper.updateUser(user);
+
+			UserExample userExample = new UserExample();
+			userExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
+			if (userMapper.selectByExample(userExample).size()!=0) {
+				userMapper.updateByExampleSelective(user, userExample);
 			} else {
-				userMapper.insertUser(user);
+				userMapper.insert(user);
 			}
 			httpServletResponse.addCookie(new Cookie("token", token));
 

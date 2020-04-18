@@ -3,11 +3,11 @@
 <head>
     <title>社区</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
-    <link rel="stylesheet" href="css/community.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/css/community.css"/>
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
-    <script src="js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 </head>
 <body>
 <div th:insert="~{navigation :: nav}"></div>
@@ -24,7 +24,11 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading">[[${questionDTO.title}]]</h4>
+                    <h4 class="media-heading">
+                        <a th:href="@{/question/{questionId}(questionId=${questionDTO.id})}">
+                        [[${questionDTO.title}]]
+                        </a>
+                    </h4>
                     [[${questionDTO.description}]]<br>
                     <span class="text-desc">
                         <span th:text="${questionDTO.commentCount}"></span>
@@ -46,7 +50,7 @@
                         </a>
                     </li>
                     <li th:if="${pagination.showPrevious}">
-                        <a href="#" aria-label="Previous" th:href="@{/(page=${pagination.page+1})}">
+                        <a aria-label="Previous" href="#" th:href="@{/(page=${pagination.page-1})}">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
