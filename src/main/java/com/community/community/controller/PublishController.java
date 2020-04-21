@@ -1,13 +1,9 @@
 package com.community.community.controller;
 
 import com.community.community.dto.QuestionDTO;
-import com.community.community.mapper.QuestionMapper;
-import com.community.community.mapper.UserMapper;
 import com.community.community.model.Question;
 import com.community.community.model.User;
 import com.community.community.service.QuestionService;
-import org.apache.ibatis.annotations.Param;
-import org.h2.engine.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
@@ -76,7 +71,7 @@ public class PublishController {
 		question.setCreator(user.getId());
 		question.setGmtCreate(System.currentTimeMillis());
 		question.setGmtModified(question.getGmtCreate());
-		questionService.insertOrCreateQuestion(question);
+		questionService.updateOrCreateQuestion(question);
 		return "redirect:/";
 	}
 }

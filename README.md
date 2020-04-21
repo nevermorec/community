@@ -17,3 +17,19 @@ The following guides illustrate how to use some features concretely:
 * [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
 * [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
 
+mvn flyway:migrate
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+  <update id="increaseViewCount" parameterType="com.community.community.model.Question">
+    update QUESTION
+    set
+    VIEW_COUNT = VIEW_COUNT + #{viewCount,jdbcType=INTEGER}
+    where ID=#{id}
+  </update>
+  
+    <update id="increaseCommentCount" parameterType="com.community.community.model.Question">
+      update QUESTION
+      set
+      COMMENT_COUNT = COMMENT_COUNT + #{commentCount,jdbcType=INTEGER}
+      where ID=#{id}
+    </update>
+int increaseViewCount(Question record);

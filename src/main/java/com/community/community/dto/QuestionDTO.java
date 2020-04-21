@@ -31,4 +31,7 @@ public class QuestionDTO {
 		this.likeCount = question.getLikeCount();
 		this.user = null;
 	}
+
+	public QuestionDTO() {
+	}
 }
