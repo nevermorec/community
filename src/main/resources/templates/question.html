@@ -60,8 +60,13 @@
                         </h5>
                         <div th:text="${commentDTO.content}"></div>
                         <div class="menu">
-                            <span class="glyphicon glyphicon-thumbs-up icon"></span>
-                            <span class="glyphicon glyphicon-comment icon" th:data-id="${commentDTO.id}" onclick="collapseComments(this)"></span>
+                            <span class="glyphicon glyphicon-thumbs-up icon">
+                                <span th:text="${commentDTO.likeCount}" style="margin-left: 2px;vertical-align: 2px;"></span>
+                            </span>
+                            <span class="glyphicon glyphicon-comment icon" th:data-id="${commentDTO.id}"
+                                  onclick="collapseComments(this)">
+                                <span th:text="${commentDTO.commentCount}" style="margin-left: 2px;vertical-align: 2px;"></span>
+                            </span>
                             <span class="pull-right" th:text="${#dates.format(commentDTO.gmtCreate,'yyyy-MM-dd hh:mm:ss')}"></span>
                         </div>
 

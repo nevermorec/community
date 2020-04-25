@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,6 +40,8 @@ public class CommentServiceImpl implements CommentService {
 			Comment dbComment = commentMapper.selectByPrimaryKey(comment.getParentId());
 			if (dbComment==null) throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
 			commentMapper.insertSelective(comment);
+			dbComment.setCommentCount(1);
+			commentMapper.increaseCommentCount(dbComment);
 		} else {
 			// 回复问题
 			Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
